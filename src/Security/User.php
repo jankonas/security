@@ -87,7 +87,8 @@ class User extends Nette\Object
 			$id = $this->getAuthenticator()->authenticate(func_get_args());
 		}
 		$this->storage->setIdentity($id);
-		$this->storage->setAuthenticated(TRUE);
+		$regenerateSession = !in_array('fake', $id->getRoles());
+		$this->storage->setAuthenticated(TRUE, $regenerateSession);
 		$this->onLoggedIn($this);
 	}
 
